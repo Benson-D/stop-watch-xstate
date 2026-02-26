@@ -1,10 +1,11 @@
 import { Box, Button, Typography } from "@mui/material";
-import { useMachine } from "@xstate/react";
+import { useMachine, useSelector } from "@xstate/react";
 import { stopWatchMachine } from "../state/stopWatchMachine";
 import { convertToMilliseconds } from "../util/convertToMilliseconds";
 
 export default function StopWatch() {
-  const [state, send] = useMachine(stopWatchMachine);
+  const [state, send, service] = useMachine(stopWatchMachine);
+  const canLap = useSelector(service, (s) => s.can({ type: "LAP" }));
 
   return (
     <>
@@ -52,6 +53,7 @@ export default function StopWatch() {
           Stop
         </Button>
         <Button
+          disabled={!canLap}
           variant="outlined"
           color="info"
           sx={{ marginTop: "1rem", marginLeft: "1rem" }}
