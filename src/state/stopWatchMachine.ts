@@ -26,8 +26,9 @@ export const stopWatchMachine = setup({
   },
   guards: {
     canRecordLap: ({ context }) => context.elapsedTime > 0,
-	canReset: ({ context }) => context.elapsedTime > 0 || context.laps.length > 0,
-	canStop: ({ context }) => context.elapsedTime > 0,
+    canReset: ({ context }) =>
+      context.elapsedTime > 0 || context.laps.length > 0,
+    canStop: ({ context }) => context.elapsedTime > 0,
   },
   actions: {
     incrementTime: assign({
@@ -41,6 +42,7 @@ export const stopWatchMachine = setup({
     interval: intervalActor,
   },
 }).createMachine({
+  /** @xstate-layout N4IgpgJg5mDOIC5SwC4HsAOB1AhigxgBYDEASgKIDK5AKgNoAMAuoqBmrAJYqdoB2rEAA9EAFgBMAGhABPROIBsADgB0S0QoDMyzQwCMAdgCsR0QF8z01JlwFCKzhAA2YYpRoBBUvWaD2XHn5BEQRNcQBOFQMJPXCDPSMlcVFRcKNpOQQIyPCGBUUwpTTRTU0LK3RsPCIVACcAVz4+Tj4oYhoASQBhAGlGFiQQf25eAUGQ0USVQr1NcPC9RXFtDMRDAxU0zT0NEsTwzSNykGsquzrG5tbiABkPAAV+vw4RoPGxbRUjAwYwjQZ4gdRAZVgglHovgwoTsFAlogoFOZLCdKrYag0mi02u4APKPXyDYaBMagEKlVSzcRJUR6LQMZJSWTyVIqUR5cRGBhGcSKJQKcIWZF8NAQOCCU5owjPAKjYKIAC0ClBipUULV6o1BmOEuq9kcLmlrxJwmZEIZsQUiUmnPEIKZWXC4mmPMdBiS6ih321qN1F0xrUNxLlCEmDBUlvyCjdSgM-IM8dBtsibPybo5CgYbM0WsFQA */
   id: "stopWatch",
   initial: "idle",
   context: {
@@ -67,9 +69,9 @@ export const stopWatchMachine = setup({
         src: "interval",
       },
       on: {
-        STOP: "idle",
         TICK: { actions: "incrementTime" },
         LAP: [{ guard: "canRecordLap", actions: "addLap" }],
+        STOP: "idle",
       },
     },
   },

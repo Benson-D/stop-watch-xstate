@@ -1,4 +1,4 @@
-import StopWatch from "./components/StopWatch";
+import StopWatch from "./components/StopWatch/StopWatch";
 import { Box } from "@mui/material";
 
 function App() {
