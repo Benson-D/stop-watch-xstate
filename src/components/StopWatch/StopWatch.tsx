@@ -4,7 +4,16 @@ import { StopWatchButtons } from "./StopWatchButtons";
 import { useStopWatch } from "../../hooks/useStopWatch";
 
 export default function StopWatch() {
-  const { elapsedTime, laps, isRunning, send, canLap } = useStopWatch();
+  const {
+    elapsedTime,
+    laps,
+    lapColors,
+    isRunning,
+    send,
+    canLap,
+    errorMessage,
+    isStopped,
+  } = useStopWatch();
 
   return (
     <>
@@ -33,6 +42,7 @@ export default function StopWatch() {
         send={send}
         canLap={canLap}
         isRunning={isRunning}
+        isStopped={isStopped}
       />
 
       {/* Laps Section */}
@@ -53,11 +63,24 @@ export default function StopWatch() {
             }}
           >
             {laps.map((lap, idx) => (
-              <Typography key={idx} variant="body1" sx={{ marginLeft: "2rem" }}>
+              <Typography
+                key={idx}
+                variant="body1"
+                sx={{ marginLeft: "2rem", color: lapColors[idx] }}
+              >
                 Lap {idx + 1}: {convertToMilliseconds(lap)}
               </Typography>
             ))}
           </Box>
+          {errorMessage && (
+            <Typography
+              variant="body2"
+              color="error"
+              sx={{ marginTop: "1rem", textAlign: "center" }}
+            >
+              {errorMessage}
+            </Typography>
+          )}
         </Box>
       )}
     </>

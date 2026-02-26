@@ -8,6 +8,9 @@ export const useStopWatch = () => {
   const elapsedTime = useSelector(service, (s) => s.context.elapsedTime);
   const laps = useSelector(service, (s) => s.context.laps);
   const isRunning = useSelector(service, (s) => s.matches("running"));
+  const isStopped = useSelector(service, (s) => s.matches("idle"));
+  const lapColors = useSelector(service, (s) => s.context.lapColors);
+  const errorMessage = useSelector(service, (s) => s.context.errorMessage);
 
   // "Can" guards for buttons
   const canLap = useSelector(service, (s) => s.can({ type: "LAP" }));
@@ -18,7 +21,10 @@ export const useStopWatch = () => {
     service,
     elapsedTime,
     laps,
+    lapColors,
     canLap,
     isRunning,
+    isStopped,
+    errorMessage,
   };
 };

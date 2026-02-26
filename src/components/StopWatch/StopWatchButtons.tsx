@@ -5,6 +5,7 @@ interface StopWatchButtonsProps {
   canLap: boolean;
   isRunning: boolean;
   elapsedTime: number;
+  isStopped: boolean;
 }
 
 export const StopWatchButtons = ({
@@ -12,6 +13,7 @@ export const StopWatchButtons = ({
   send,
   canLap,
   isRunning,
+  isStopped,
 }: StopWatchButtonsProps) => {
   return (
     <Box sx={{ display: "flex", gap: 2, marginTop: "1rem" }}>
@@ -40,7 +42,7 @@ export const StopWatchButtons = ({
       >
         Lap
       </Button>
-      {elapsedTime > 0 && (
+      {elapsedTime > 0 && isStopped && (
         <Button
           variant="outlined"
           color="secondary"
