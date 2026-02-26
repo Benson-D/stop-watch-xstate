@@ -1,4 +1,4 @@
-# ⏱ Stopwatch – React + TypeScript + MUI + XState
+# ⏱ Stopwatch
 
 A simple stopwatch application built with **React**, **TypeScript**, **Material UI (MUI)**, and **XState**.
 
