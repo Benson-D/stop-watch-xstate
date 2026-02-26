@@ -68,6 +68,32 @@ export default function StopWatch() {
           Reset
         </Button>
       </Box>
+
+      {/* Laps Section */}
+      {state.context.laps.length > 0 && (
+        <Box sx={{ marginTop: "2rem" }}>
+          <Typography variant="h6" gutterBottom>
+            Laps
+          </Typography>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              gap: 1,
+              backgroundColor: "#fff",
+              padding: "1rem",
+              borderRadius: "8px",
+              boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+            }}
+          >
+            {state.context.laps.map((lap, idx) => (
+              <Typography key={idx} variant="body1" sx={{ marginLeft: "2rem" }}>
+                Lap {idx + 1}: {convertToMilliseconds(lap)}
+              </Typography>
+            ))}
+          </Box>
+        </Box>
+      )}
     </>
   );
 }

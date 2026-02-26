@@ -43,12 +43,17 @@ export const stopWatchMachine = createMachine({
         }),
       },
       on: {
+        STOP: "idle",
         TICK: {
           actions: assign(({ context }) => ({
             elapsedTime: context.elapsedTime + 1000,
           })),
         },
-        STOP: "idle",
+        LAP: {
+          actions: assign(({ context }) => ({
+            laps: [...context.laps, context.elapsedTime],
+          })),
+        },
       },
     },
   },
