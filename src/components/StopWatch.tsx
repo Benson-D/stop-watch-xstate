@@ -71,7 +71,7 @@ export default function StopWatch() {
 
       {/* Laps Section */}
       {state.context.laps.length > 0 && (
-        <Box sx={{ marginTop: "2rem" }}>
+        <Box sx={{ marginTop: "2rem", width: "100%" }}>
           <Typography variant="h6" gutterBottom>
             Laps
           </Typography>
