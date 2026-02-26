@@ -1,4 +1,4 @@
-import { createMachine, assign, fromCallback } from "xstate";
+import { setup, assign, fromCallback } from "xstate";
 
 export interface StopWatchContext {
   elapsedTime: number;
@@ -12,10 +12,28 @@ export type StopWatchEvent =
   | { type: "RESET" }
   | { type: "TICK" };
 
-export const stopWatchMachine = createMachine({
+const INTERVAL_MS = 10;
+
+export const stopWatchMachine = setup({
+  types: {} as {
+    context: StopWatchContext;
+    events: StopWatchEvent;
+  },
+  guards: {
+    canRecordLap: ({ context }) => context.elapsedTime > 0,
+  },
+  actions: {
+	incrementTime: assign({
+		elapsedTime: ({ context }) => context.elapsedTime + INTERVAL_MS,
+	}),
+    addLap: assign({
+      laps: ({ context }) => [...context.laps, context.elapsedTime],
+    }),
+	
+  },
+}).createMachine({
   id: "stopWatch",
   initial: "idle",
-  types: {} as { context: StopWatchContext; events: StopWatchEvent },
   context: {
     elapsedTime: 0,
     laps: [],
@@ -37,23 +55,14 @@ export const stopWatchMachine = createMachine({
     running: {
       invoke: {
         src: fromCallback(({ sendBack }) => {
-          const interval = setInterval(() => sendBack({ type: "TICK" }), 1000);
-
+          const interval = setInterval(() => sendBack({ type: "TICK" }), INTERVAL_MS);
           return () => clearInterval(interval);
         }),
       },
       on: {
         STOP: "idle",
-        TICK: {
-          actions: assign(({ context }) => ({
-            elapsedTime: context.elapsedTime + 1000,
-          })),
-        },
-        LAP: {
-          actions: assign(({ context }) => ({
-            laps: [...context.laps, context.elapsedTime],
-          })),
-        },
+        TICK: { actions: "incrementTime" },
+        LAP: [{ guard: "canRecordLap", actions: "addLap" }],
       },
     },
   },
