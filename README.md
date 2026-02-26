@@ -72,4 +72,3 @@ export default defineConfig([
 ])
 ```
 # stop-watch-xstate
-# stop-watch-xstate
