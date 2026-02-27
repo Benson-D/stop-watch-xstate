@@ -46,8 +46,9 @@ export const stopWatchMachine = setup({
       },
       lastLapTime: ({ context }) => context.elapsedTime,
       lapColors: ({ context }) => {
-        const newLaps = [...context.laps, context.elapsedTime];
-        if (newLaps.length === 1) return ["black"];
+        const newLap = context.elapsedTime - context.lastLapTime;
+        const newLaps = [...context.laps, newLap];
+        if (newLaps.length <= 2) return ["black"];
 
         const fastestLap = Math.min(...newLaps);
         const slowestLap = Math.max(...newLaps);
@@ -85,6 +86,9 @@ export const stopWatchMachine = setup({
       actions: assign({
         elapsedTime: 0,
         laps: [],
+        lastLapTime: 0,
+        lapColors: [],
+        errorMessage: undefined,
       }),
     },
   },

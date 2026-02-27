@@ -34,14 +34,17 @@ export const StopWatchButtons = ({
           Start
         </Button>
       )}
-      <Button
-        disabled={!canLap}
-        variant="outlined"
-        color="info"
-        onClick={() => send({ type: "LAP" })}
-      >
-        Lap
-      </Button>
+      {(isRunning || elapsedTime === 0) && (
+        <Button
+          disabled={!canLap}
+          variant="outlined"
+          color="primary"
+          onClick={() => send({ type: "LAP" })}
+        >
+          Lap
+        </Button>
+      )}
+
       {elapsedTime > 0 && isStopped && (
         <Button
           variant="outlined"
